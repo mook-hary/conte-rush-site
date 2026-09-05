@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conte Rush — アニメーション制作支援ツール</title>
+    <meta
+      name="description"
+      content="Conte Rush は、絵コンテPDFからコマとカットの整理、タイミング確認、ラッシュ作成までをブラウザで行うアニメーション制作支援ツールです。"
+    />
+    <link rel="stylesheet" href="css/site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="./index.html">Conte Rush</a>
+        <nav class="nav" aria-label="ページ内">
+          <a href="#about">概要</a>
+          <a href="#workflow">できること</a>
+          <a href="#pricing">料金</a>
+          <a href="#contact">お問い合わせ</a>
+          <a href="legal/terms.html">利用規約</a>
+          <a href="legal/privacy.html">プライバシー</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <h1>Conte Rush</h1>
+          <p class="lede">コンテから、タイミング確認とラッシュ作成まで。</p>
+          <p class="hero-copy">
+            ブラウザで動く、アニメーション制作向けの制作支援ツールです。絵コンテPDFを開き、コマとカットを整理し、タイミングとカメラワークを確認したうえで、ラッシュ再生と確認用MP4、タイムシートの書き出しまで行えます。制作ファイルはクラウドへ送りません。
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="https://mook-hary.github.io/conte-rush/">アプリを開く</a>
+            <a class="button button-ghost" href="#pricing">料金を見る</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="wrap">
+          <h2>だれ向けか</h2>
+          <p>
+            アニメーター、演出、制作進行など、絵コンテ以降のタイミング確認やラッシュ確認を行う制作スタッフ向けです。ブラウザで開き、ログインしたうえで利用します。
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="workflow">
+        <div class="wrap">
+          <h2>作業の流れ</h2>
+          <p>
+            手元の絵コンテPDFを読み込み、コマを切り出し、カットと尺を整え、動きを確認してから、社内確認用の映像や紙タイムシートを書き出します。
+          </p>
+          <ol class="flow">
+            <li><strong>絵コンテPDF</strong>手元のファイルを開く</li>
+            <li><strong>コマ</strong>画面上で切り出す</li>
+            <li><strong>カット</strong>番号と尺を付ける</li>
+            <li><strong>タイミング</strong>フレームで配置する</li>
+            <li><strong>ラッシュ</strong>ブラウザで再生する</li>
+            <li><strong>確認出力</strong>MP4 / タイムシート</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="wrap">
+          <h2>主な機能</h2>
+          <ul class="features">
+            <li>
+              <strong>絵コンテPDFの表示</strong>
+              ローカルのPDFをブラウザで開き、ページを移動できます。
+            </li>
+            <li>
+              <strong>コマの切り出し</strong>
+              表示中のページからコマを登録し、一覧で確認できます。手描きや画像の追加もできます。
+            </li>
+            <li>
+              <strong>カットの整理</strong>
+              カット番号と尺を付け、所属するコマをまとめます。
+            </li>
+            <li>
+              <strong>フレーム単位のタイミング</strong>
+              各コマの開始位置をフレームで置き、尺を調整できます。
+            </li>
+            <li>
+              <strong>カメラワークの確認</strong>
+              PAN、寄り、引きを開始画角と終了画角で指定し、再生で確認できます。
+            </li>
+            <li>
+              <strong>ラッシュ再生</strong>
+              配置したカットを24fpsでつなぎ、ブラウザ上で再生・コマ送りできます。
+            </li>
+            <li>
+              <strong>確認用MP4</strong>
+              1280×720、24fpsの映像のみMP4を書き出せます。
+            </li>
+            <li>
+              <strong>タイムシート</strong>
+              紙面レイアウトのタイムシートPDFを書き出せます。XDTSを開いて紙面にする作業もできます。
+            </li>
+            <li>
+              <strong>端末内での作業</strong>
+              制作ファイルはサーバーへ送りません。この端末への保存と、バックアップファイルの書き出しが使えます。
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" id="preview">
+        <div class="wrap">
+          <h2>画面のイメージ</h2>
+          <p>
+            制作中の絵コンテは掲載しません。実際の作業画面は、PDF表示、コマ一覧、カットとタイミング、ラッシュ確認が並ぶ構成です。
+          </p>
+          <div class="preview" role="img" aria-label="Conte Rush 作業画面の構成イメージ">
+            <div class="preview-bar">
+              <span>Conte Rush</span>
+              <span>PDFを選択　Save　Projects</span>
+            </div>
+            <div class="preview-body">
+              <div class="preview-page">絵コンテPDFの表示とコマ枠</div>
+              <div class="preview-side">コマ一覧 / カット / ラッシュ</div>
+            </div>
+            <p class="preview-note">実画面の掲載用キャプチャは、権利上問題のない素材で後から差し込めます。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="wrap">
+          <h2>料金</h2>
+          <div class="price-card">
+            <p class="amount">月額 100円（税込）</p>
+            <p>一般向けの有料プランです。申込と支払いはアプリ内で行います。</p>
+            <ul>
+              <li>期間の定めのない契約です</li>
+              <li>毎月自動更新されます</li>
+              <li>無料トライアルはありません</li>
+              <li>1年間継続した場合の支払額の目安は 1,200円（税込）です</li>
+              <li>Account の「契約を管理」から、いつでも次回更新を停止できます</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="wrap">
+          <h2>運営・お問い合わせ</h2>
+          <p>
+            本サービス運営者への連絡先は
+            <a href="mailto:mook.hary@gmail.com">mook.hary@gmail.com</a>
+            です。販売事業者名、所在地、電話番号は、請求があれば遅滞なく開示します。詳細は
+            <a href="legal/tokusho.html">特定商取引法に基づく表記</a>
+            を見てください。
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>Conte Rush</p>
+        <nav class="nav" aria-label="法務">
+          <a href="legal/index.html">ご利用案内</a>
+          <a href="legal/terms.html">利用規約</a>
+          <a href="legal/privacy.html">プライバシーポリシー</a>
+          <a href="legal/tokusho.html">特定商取引法</a>
+          <a href="legal/cancel.html">解約について</a>
+          <a href="https://mook-hary.github.io/conte-rush/">アプリを開く</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
