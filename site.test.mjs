@@ -65,6 +65,20 @@ test("landing page does not publish private or development material", () => {
   assert.equal(html.includes("IndexedDB"), false);
 });
 
+test("landing page includes a relative product image with a processing note", () => {
+  const html = read("index.html");
+  assert.match(html, /src="images\/conte-rush-product\.jpg"/);
+  assert.match(html, /※画面は機能説明のため一部加工しています/);
+  assert.equal(html.includes("/Users/"), false);
+  assert.equal(existsSync(join(ROOT, "images", "conte-rush-product.jpg")), true);
+  const productBlock = html.slice(
+    html.indexOf('class="product-visual"'),
+    html.indexOf('id="about"'),
+  );
+  assert.equal(productBlock.includes("実際の画面"), false);
+  assert.equal(productBlock.includes("実画面"), false);
+});
+
 test("site assets do not boot the production app", () => {
   const css = read("css/site.css");
   assert.match(css, /@media \(max-width: 800px\)/);

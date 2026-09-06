@@ -139,6 +139,34 @@ a:focus {
   gap: 0.7rem;
 }
 
+.product-visual {
+  padding: 0 0 2.4rem;
+}
+
+.product-visual .wrap {
+  width: min(48rem, calc(100% - 2rem));
+}
+
+.product-figure {
+  margin: 0;
+}
+
+.product-figure img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.product-note {
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+}
+
 .section {
   padding: 2.2rem 0;
   border-top: 1px solid var(--border);
