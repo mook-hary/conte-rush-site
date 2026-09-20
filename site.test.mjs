@@ -124,3 +124,74 @@ test("site assets do not boot the production app", () => {
   assert.equal(existsSync(join(ROOT, "css", "legal.css")), true);
   assert.equal(existsSync(join(ROOT, "js")), false);
 });
+
+const SITE = "https://mook-hary.github.io/conte-rush-site/";
+
+function extractJsonLd(html) {
+  const start = html.indexOf('<script type="application/ld+json">');
+  assert.notEqual(start, -1);
+  const open = html.indexOf(">", start) + 1;
+  const close = html.indexOf("</script>", open);
+  return JSON.parse(html.slice(open, close));
+}
+
+test("SEO foundation uses the project-site canonical base", () => {
+  const home = read("index.html");
+  const robots = read("robots.txt");
+  const sitemap = read("sitemap.xml");
+  assert.match(home, /rel="canonical" href="https:\/\/mook-hary\.github\.io\/conte-rush-site\/"/);
+  assert.match(home, /property="og:url" content="https:\/\/mook-hary\.github\.io\/conte-rush-site\/"/);
+  assert.match(home, /property="og:type" content="website"/);
+  assert.match(home, /property="og:title"/);
+  assert.match(home, /property="og:description"/);
+  assert.match(
+    home,
+    /property="og:image"\s+content="https:\/\/mook-hary\.github\.io\/conte-rush-site\/images\/conte-rush-product\.jpg"/,
+  );
+  assert.match(home, /name="twitter:card" content="summary_large_image"/);
+  assert.match(robots, /User-agent:\s*\*/);
+  assert.match(robots, /Allow:\s*\//);
+  assert.match(robots, /Sitemap:\s*https:\/\/mook-hary\.github\.io\/conte-rush-site\/sitemap\.xml/);
+  assert.doesNotMatch(robots, /Disallow:/);
+  assert.equal(existsSync(join(ROOT, "robots.txt")), true);
+  assert.equal(existsSync(join(ROOT, "sitemap.xml")), true);
+  for (const loc of [
+    SITE,
+    `${SITE}legal/`,
+    `${SITE}legal/terms.html`,
+    `${SITE}legal/privacy.html`,
+    `${SITE}legal/tokusho.html`,
+    `${SITE}legal/cancel.html`,
+  ]) {
+    assert.match(sitemap, new RegExp(loc.replace(/[/.]/g, "\\$&")));
+  }
+  assert.doesNotMatch(sitemap, /\/features\/|\/guide\/|\/articles\/|\/about\//);
+  const data = extractJsonLd(home);
+  assert.equal(data["@type"], "SoftwareApplication");
+  assert.equal(data.name, "Conte Rush");
+  assert.equal(data.url, SITE);
+  assert.equal(data.applicationCategory, "MultimediaApplication");
+  assert.match(String(data.operatingSystem), /Web/);
+  assert.match(String(data.operatingSystem), /macOS/);
+  assert.equal("offers" in data, false);
+  assert.equal("aggregateRating" in data, false);
+  assert.equal("review" in data, false);
+  const serialized = JSON.stringify(data);
+  assert.doesNotMatch(serialized, /ratingValue|reviewCount|userCount|downloadCount|ratingCount/);
+  assert.doesNotMatch(home, /price_[A-Za-z0-9]{10,}|STRIPE_|sk_live|service_role/);
+});
+
+test("legal pages have representative canonicals without changing URLs", () => {
+  const pages = {
+    "legal/index.html": `${SITE}legal/`,
+    "legal/terms.html": `${SITE}legal/terms.html`,
+    "legal/privacy.html": `${SITE}legal/privacy.html`,
+    "legal/tokusho.html": `${SITE}legal/tokusho.html`,
+    "legal/cancel.html": `${SITE}legal/cancel.html`,
+  };
+  for (const [rel, href] of Object.entries(pages)) {
+    const html = read(rel);
+    assert.match(html, new RegExp(`rel="canonical" href="${href.replace(/[/.]/g, "\\$&")}"`));
+    assert.match(html, /\/conte-rush-site\//);
+  }
+});

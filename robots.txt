@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mook-hary.github.io/conte-rush-site/sitemap.xml

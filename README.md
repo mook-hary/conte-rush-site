@@ -4,11 +4,11 @@ Conte Rush の公開製品ページです。Stripe など外部から、商品�
 
 制作アプリ本体は別リポジトリ `conte-rush` にあります。このサイトはログイン不要です。
 
-## 公開URL（予定）
-
-GitHub Pages でルート配信した場合:
+## 公開URL
 
 `https://mook-hary.github.io/conte-rush-site/`
+
+canonical / Open Graph / robots.txt / sitemap.xml は、この project site URL を正とします。Search Console や analytics はまだ入れていません。
 
 本体アプリ（現行）:
 
