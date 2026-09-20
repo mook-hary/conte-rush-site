@@ -10,6 +10,13 @@ Conte Rush の公開製品ページです。Stripe など外部から、商品�
 
 canonical / Open Graph / robots.txt / sitemap.xml は、この project site URL を正とします。Search Console や analytics はまだ入れていません。
 
+公開中の案内ページ:
+
+- `/features/` 機能
+- `/guide/` 使い方
+- `/articles/` 記事
+- `/about/` About
+
 本体アプリ（現行）:
 
 `https://mook-hary.github.io/conte-rush/`

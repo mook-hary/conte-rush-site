@@ -162,10 +162,14 @@ test("SEO foundation uses the project-site canonical base", () => {
     `${SITE}legal/privacy.html`,
     `${SITE}legal/tokusho.html`,
     `${SITE}legal/cancel.html`,
+    `${SITE}features/`,
+    `${SITE}guide/`,
+    `${SITE}articles/`,
+    `${SITE}about/`,
   ]) {
     assert.match(sitemap, new RegExp(loc.replace(/[/.]/g, "\\$&")));
   }
-  assert.doesNotMatch(sitemap, /\/features\/|\/guide\/|\/articles\/|\/about\//);
+  assert.doesNotMatch(sitemap, /\/guide\/getting-started|\/articles\/storyboard|\/features\/pdf/);
   const data = extractJsonLd(home);
   assert.equal(data["@type"], "SoftwareApplication");
   assert.equal(data.name, "Conte Rush");
@@ -179,6 +183,63 @@ test("SEO foundation uses the project-site canonical base", () => {
   const serialized = JSON.stringify(data);
   assert.doesNotMatch(serialized, /ratingValue|reviewCount|userCount|downloadCount|ratingCount/);
   assert.doesNotMatch(home, /price_[A-Za-z0-9]{10,}|STRIPE_|sk_live|service_role/);
+});
+
+test("section indexes exist with project-site metadata and safe copy", () => {
+  const sections = {
+    "features/index.html": `${SITE}features/`,
+    "guide/index.html": `${SITE}guide/`,
+    "articles/index.html": `${SITE}articles/`,
+    "about/index.html": `${SITE}about/`,
+  };
+  const home = read("index.html");
+  assert.match(home, /href="features\/"/);
+  assert.match(home, /href="guide\/"/);
+  assert.match(home, /href="articles\/"/);
+  assert.match(home, /href="about\/"/);
+  assert.match(home, />アプリを開く</);
+  const all = [home, ...Object.keys(sections).map((rel) => read(rel))].join("\n");
+  assert.doesNotMatch(all, /最速|唯一|業界初|完全オフライン|通信ゼロ/);
+  assert.doesNotMatch(all, /price_[A-Za-z0-9]{10,}|STRIPE_|sk_live|service_role/);
+  for (const [rel, href] of Object.entries(sections)) {
+    const html = read(rel);
+    assert.equal(existsSync(join(ROOT, rel)), true, rel);
+    assert.match(html, new RegExp(`rel="canonical" href="${href.replace(/[/.]/g, "\\$&")}"`));
+    assert.match(html, /property="og:title"/);
+    assert.match(html, /property="og:description"/);
+    assert.match(html, /property="og:url"/);
+    assert.match(
+      html,
+      /https:\/\/mook-hary\.github\.io\/conte-rush-site\/images\/conte-rush-product\.jpg/,
+    );
+    assert.match(html, /name="twitter:card"/);
+    assert.match(html, /href="\.\.\/css\/site\.css"/);
+    assert.match(html, /href="\.\.\/index\.html"/);
+    assert.match(html, /href="\.\.\/legal\/terms\.html"/);
+    assert.match(html, /https:\/\/mook-hary\.github\.io\/conte-rush\//);
+    const data = extractJsonLd(html);
+    assert.equal(data["@type"], "BreadcrumbList");
+    assert.equal("aggregateRating" in data, false);
+  }
+  const features = read("features/index.html");
+  const guide = read("guide/index.html");
+  const articles = read("articles/index.html");
+  const about = read("about/index.html");
+  assert.match(features, /PDFコンテを開く/);
+  assert.match(features, /Panel登録/);
+  assert.match(features, /Cut整理/);
+  assert.match(features, /尺設定/);
+  assert.match(features, /Motion/);
+  assert.match(features, /Rush再生/);
+  assert.match(features, /MP4出力/);
+  assert.match(features, /https:\/\/mook-hary\.github\.io\/conte-rush\/download\//);
+  assert.match(guide, /https:\/\/mook-hary\.github\.io\/conte-rush\/download\//);
+  assert.doesNotMatch(guide, /href="\.\/getting-started|href="\.\.\/guide\/local/);
+  assert.match(articles, /実務的な記事を掲載します/);
+  assert.doesNotMatch(articles, /href="\.\/storyboard|記事カード/);
+  assert.match(about, /個人で開発/);
+  assert.match(about, /サーバーへ保存しません/);
+  assert.match(about, /利用権の確認のために通信することがあります/);
 });
 
 test("legal pages have representative canonicals without changing URLs", () => {
