@@ -20,15 +20,35 @@ test("public landing page has no authentication or app boot", () => {
   assert.equal(html.includes("STRIPE_"), false);
 });
 
-test("landing page states price, contact, and legal links", () => {
+function publicPages() {
+  return [
+    "index.html",
+    "legal/index.html",
+    "legal/terms.html",
+    "legal/tokusho.html",
+    "legal/cancel.html",
+    "legal/privacy.html",
+    "README.md",
+  ].map((rel) => read(rel)).join("\n");
+}
+
+test("landing page states live dual prices, contact, and legal links", () => {
   const html = read("index.html");
-  assert.match(html, /月額100円（税込）/);
+  assert.match(html, /通常価格 月額500円（税込）/);
+  assert.match(html, /ローンチ価格 月額100円（税込）・先着20名/);
+  assert.match(html, /ローンチ価格での契約を継続している間は、月額100円（税込）/);
+  assert.match(html, /その時点の新規契約価格が適用されます/);
+  assert.match(html, /6,000円（税込）/);
   assert.match(html, /1,200円（税込）/);
+  assert.match(html, /年払いではありません/);
+  assert.match(html, /同じ利用契約で利用できます/);
+  assert.match(html, /https:\/\/mook-hary\.github\.io\/conte-rush\/download\//);
   assert.match(html, /mailto:mook\.hary@gmail\.com/);
   assert.match(html, /legal\/terms\.html/);
   assert.match(html, /legal\/privacy\.html/);
   assert.match(html, /legal\/tokusho\.html/);
   assert.match(html, /https:\/\/mook-hary\.github\.io\/conte-rush\//);
+  assert.match(html, />アプリを開く</);
   assert.match(html, /絵コンテPDF/);
   assert.match(html, /コマの切り出し・整理/);
   assert.match(html, /カット作成/);
@@ -40,6 +60,19 @@ test("landing page states price, contact, and legal links", () => {
   assert.match(html, /写真認識、タイムシートの直接編集、XDTS書き出し、タイムラインとの自動同期は行いません/);
 });
 
+test("public site pricing is not the old 100-yen-only offer", () => {
+  const pages = publicPages();
+  assert.match(pages, /月額\s*500\s*円（税込）|月額500円（税込）/);
+  assert.match(pages, /月額\s*100\s*円（税込）|月額100円（税込）/);
+  assert.match(pages, /先着\s*20\s*名|先着20名/);
+  assert.match(pages, /継続している間/);
+  assert.match(pages, /その時点の新規契約価格/);
+  assert.doesNotMatch(pages, /一般ユーザーの利用料金は月額 100/);
+  assert.doesNotMatch(pages, /月額100円で利用する/);
+  assert.doesNotMatch(pages, /残り\s*19|残り人数|永久100|全員100|全員が月額100|期間限定100/);
+  assert.doesNotMatch(pages, /price_[A-Za-z0-9]{10,}|STRIPE_/);
+});
+
 test("legal pages are present and keep existing public facts", () => {
   for (const name of ["index.html", "terms.html", "privacy.html", "tokusho.html", "cancel.html"]) {
     assert.equal(existsSync(join(ROOT, "legal", name)), true, name);
@@ -47,10 +80,16 @@ test("legal pages are present and keep existing public facts", () => {
   const terms = read("legal/terms.html");
   const privacy = read("legal/privacy.html");
   const tokusho = read("legal/tokusho.html");
-  assert.match(terms, /月額 100 円（税込）/);
+  const cancel = read("legal/cancel.html");
+  const guide = read("legal/index.html");
+  assert.match(terms, /通常価格は月額 500 円（税込）/);
+  assert.match(terms, /ローンチ価格は月額 100 円（税込）・先着 20 名/);
   assert.match(privacy, /mailto:mook\.hary@gmail\.com/);
-  assert.match(tokusho, /月額 100 円（税込）/);
+  assert.match(tokusho, /通常価格は月額 500 円（税込）/);
+  assert.match(tokusho, /ローンチ価格は月額 100 円（税込）・先着 20 名/);
   assert.match(tokusho, /請求があった場合、遅滞なく開示します/);
+  assert.match(cancel, /その時点の新規契約価格が適用されます/);
+  assert.match(guide, /同じ利用契約で利用できます/);
   assert.match(terms, /製品サイトへ戻る/);
   assert.equal(terms.includes("access-gate"), false);
 });
